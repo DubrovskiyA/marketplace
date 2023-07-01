@@ -4,6 +4,7 @@ import ru.inno.market.model.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class MarketService {
 
@@ -24,6 +25,8 @@ public class MarketService {
     }
 
     public void addItemToOrder(Item item, int orderId ){
+        Catalog catalog=new Catalog();
+        catalog.getItemById(item.getId());
         orders.get(orderId).addItem(item);
     }
 
@@ -34,7 +37,10 @@ public class MarketService {
     }
 
     public Order getOrderInfo(int id) {
-        return orders.get(id);
+        if (orders.containsKey(id)){
+            return orders.get(id);
+        }
+        throw new NoSuchElementException("Заказ не создан");
     }
 }
 
